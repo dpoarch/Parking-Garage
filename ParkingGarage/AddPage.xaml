@@ -1,0 +1,28 @@
+﻿<Window x:Class="ParkingGarage.AddPage"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ParkingGarage"
+        mc:Ignorable="d"
+        Title="Add Vehicle On Parking" Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="19*"/>
+            <ColumnDefinition Width="29*"/>
+            <ColumnDefinition Width="744*"/>
+        </Grid.ColumnDefinitions>
+        <Label Content="Plate Number" HorizontalAlignment="Left" Margin="297.182,52,0,0" VerticalAlignment="Top" Grid.Column="2"/>
+        <TextBox x:Name="plateNumber" HorizontalAlignment="Left" Height="23" Margin="297.182,78,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.035,-1.075" Grid.Column="2"/>
+        <ComboBox x:Name="vehicleType" HorizontalAlignment="Left" Margin="297.182,147,0,0" VerticalAlignment="Top" Width="120" Grid.Column="2" SelectedIndex="0">
+            <ListBoxItem Content="Motorcycle Spot"/>
+            <ListBoxItem Content="Compact Spot"/>
+            <ListBoxItem Content="Large Spot"/>
+        </ComboBox>
+        <Label Content="Vehicle Type" HorizontalAlignment="Left" Margin="297.182,121,0,0" VerticalAlignment="Top" Width="120" Grid.Column="2"/>
+        <ComboBox x:Name="parkingGarage" HorizontalAlignment="Left" Margin="297.182,222,0,0" VerticalAlignment="Top" Width="120" RenderTransformOrigin="-0.247,0.537" Grid.Column="2" SelectedIndex="0"/>
+        <Label Content="Parking Garage" HorizontalAlignment="Left" Margin="297.182,196,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.545,-0.115" Width="99" Grid.Column="2"/>
+        <Button Content="Add" HorizontalAlignment="Left" Margin="321.182,280,0,0" VerticalAlignment="Top" Width="75" Grid.Column="2" Click="Button_Click"/>
+
+    </Grid>
+</Window>
