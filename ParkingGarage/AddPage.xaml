@@ -23,6 +23,7 @@
         <ComboBox x:Name="parkingGarage" HorizontalAlignment="Left" Margin="297.182,222,0,0" VerticalAlignment="Top" Width="120" RenderTransformOrigin="-0.247,0.537" Grid.Column="2" SelectedIndex="0"/>
         <Label Content="Parking Garage" HorizontalAlignment="Left" Margin="297.182,196,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.545,-0.115" Width="99" Grid.Column="2"/>
         <Button Content="Add" HorizontalAlignment="Left" Margin="321.182,280,0,0" VerticalAlignment="Top" Width="75" Grid.Column="2" Click="Button_Click"/>
+        <Label x:Name="lblError" Grid.Column="2" HorizontalAlignment="Center" Margin="370,37,364,0" VerticalAlignment="Top" RenderTransformOrigin="-0.402,-0.056"/>
 
     </Grid>
 </Window>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,9 +10,12 @@ namespace ParkingGarage.Interfaces
 {
     public interface IPark
     {
-        List<ParkingModel.ParkedCarsDisplay> GetAllParkedVehicles();
-        List<ParkingModel.ParkingGarage> GetAllAvailableParkings();
-        //List<ParkingModel.ParkingGarage> GetParkings(ParkingModel.ParkingStatus status, ParkingModel.ParkingType type);
+        void RefreshData();
+        ParkingModel.ParkingType GetParkingType(int id);
+        ObservableCollection<ParkingModel.ParkedCarsDisplay> GetAllParkedVehicles();
+        ObservableCollection<ParkingModel.ParkingGarage> GetAllAvailableParkings();
+        void FetchAllParkedVehicles();
+        void FetchAllAvailableParkings();
         bool AddParkedVehicle(ParkingModel.ParkedCars parkedCars);
         bool RemoveParkedVehicle(ParkingModel.ParkedCars parkedCars);
         bool AddParkingGarage(ParkingModel.ParkingGarage parkingGarage);

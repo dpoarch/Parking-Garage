@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,10 +12,28 @@ namespace ParkingGarage.Classes
     public class Parking : IPark
     {
         Garage garageContext = new Garage();
+        private ObservableCollection<ParkingModel.ParkedCarsDisplay> parkedVehicles;
+        private ObservableCollection<ParkingModel.ParkingGarage> parkingGarages;
 
-        public List<ParkingModel.ParkedCarsDisplay> GetAllParkedVehicles()
+        public void RefreshData()
         {
-            List<ParkingModel.ParkedCarsDisplay> display = new List<ParkingModel.ParkedCarsDisplay>();
+            FetchAllParkedVehicles();
+            FetchAllAvailableParkings();
+        }
+
+        public ObservableCollection<ParkingModel.ParkedCarsDisplay> GetAllParkedVehicles()
+        {
+            return parkedVehicles;
+        }
+
+        public ObservableCollection<ParkingModel.ParkingGarage> GetAllAvailableParkings()
+        {
+            return parkingGarages;
+        }
+
+        public void FetchAllParkedVehicles()
+        {
+            ObservableCollection<ParkingModel.ParkedCarsDisplay> display = new ObservableCollection<ParkingModel.ParkedCarsDisplay>();
             List<ParkingModel.ParkedCars> parkedCars = garageContext.ParkedCars.ToList();
             foreach(ParkingModel.ParkedCars cars in parkedCars)
             {
@@ -35,12 +54,12 @@ namespace ParkingGarage.Classes
 
                 display.Add(car);
             }
-            return display;
+            parkedVehicles = display;
         }
 
-        public List<ParkingModel.ParkingGarage> GetAllAvailableParkings()
+        public void FetchAllAvailableParkings()
         {
-            List<ParkingModel.ParkingGarage> newGarageList = new List<ParkingModel.ParkingGarage>();
+            ObservableCollection<ParkingModel.ParkingGarage> newGarageList = new ObservableCollection<ParkingModel.ParkingGarage>();
             List<ParkingModel.ParkedCars> parkedCars = garageContext.ParkedCars.ToList();
             List<ParkingModel.ParkingGarage> parkingGarage = garageContext.ParkingGarage.ToList();
             foreach(var garage in parkingGarage)
@@ -58,37 +77,14 @@ namespace ParkingGarage.Classes
                     newGarageList.Add(garage);
                 }
             }
-            return newGarageList;
+            parkingGarages = newGarageList;
         }
 
-        //public List<ParkingModel.ParkingGarage> GetParkings(ParkingModel.ParkingStatus status, ParkingModel.ParkingType type)
-        //{
-        //    List<ParkingModel.ParkingGarage> unsuedGarage = new List<ParkingModel.ParkingGarage>();
-        //    List<ParkingModel.ParkingGarage> parkingGarage = garageContext.ParkingGarage.ToList();
-        //    List<ParkingModel.ParkedCars> parkingCars = garageContext.ParkedCars.ToList();
-        //    foreach (ParkingModel.ParkingGarage garage in parkingGarage)
-        //    {
-        //        int parkedCount = parkingCars.Where(i => i.ParkedSlots.Contains(garage) && i.ParkingType == type).Count();
-        //        if (status == ParkingModel.ParkingStatus.Available)
-        //        {
-        //            if (parkedCount == 0)
-        //            {
-        //                unsuedGarage.Add(garage);
-        //            }
-        //        }
-        //        else
-        //        {
-        //            if (parkedCount > 0)
-        //            {
-        //                unsuedGarage.Add(garage);
-        //            }
-        //        }
-
-        //    }
-
-        //    return unsuedGarage;
-        //}
-
+        public ParkingModel.ParkingType GetParkingType(int id)
+        {
+            return garageContext.ParkingGarage.FirstOrDefault(i => i.Id == id).ParkingType;
+        }
+        
         public bool AddParkedVehicle(ParkingModel.ParkedCars parkedCars)
         {
             try
@@ -97,7 +93,7 @@ namespace ParkingGarage.Classes
                 garageContext.SaveChanges();
                 return true;
             }
-            catch(Exception e)
+            catch
             {
                 return false;
             }

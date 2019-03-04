@@ -5,15 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ParkingGarage"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Parking Garage" Height="450" Width="800">
     <Grid>
-        <ComboBox x:Name="selector" HorizontalAlignment="Left" Margin="662,39,0,0" VerticalAlignment="Top" Width="120" SelectedIndex="0" SelectionChanged="ComboBox_SelectionChanged" AutomationProperties.Name="selector">
+        <ComboBox x:Name="selector" HorizontalAlignment="Left" Margin="55,12,0,0" VerticalAlignment="Top" Width="120" SelectedIndex="0" SelectionChanged="ComboBox_SelectionChanged" AutomationProperties.Name="selector">
             <ListBoxItem Content="Parked Vehicles"/>
             <ListBoxItem Content="Available Parking Garage"/>
         </ComboBox>
-        <Label Content="Parking" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="120"/>
-        <DataGrid x:Name="ParkedGrid" HorizontalAlignment="Left" Height="343" Margin="10,66,0,0" VerticalAlignment="Top" Width="772"  AutomationProperties.Name="ParkedGrid"/>
-        <Button Content="Park New Vehicle" HorizontalAlignment="Left" Margin="509,39,0,0" VerticalAlignment="Top" Width="132" RenderTransformOrigin="0.061,-0.184" Click="Button_Click"/>
+        <DataGrid x:Name="ParkedGrid" HorizontalAlignment="Left" Height="368" Margin="10,41,0,0" VerticalAlignment="Top" Width="772"  AutomationProperties.Name="ParkedGrid"/>
+        <Button Content="Park New Vehicle" HorizontalAlignment="Left" Margin="650,10,0,0" VerticalAlignment="Top" Width="132" RenderTransformOrigin="0.061,-0.184" Click="Button_Click"/>
+        <Label Content="Filter" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="-5.957,-0.101"/>
 
     </Grid>
 </Window>

@@ -21,29 +21,58 @@ namespace ParkingGarage
     /// </summary>
     public partial class AddPage : Window
     {
-        public Parking park = new Parking();
+        MainWindow main = new MainWindow();
+        public Garage garage = new Garage();
 
         public AddPage()
         {
             InitializeComponent();
-            parkingGarage.ItemsSource = park.GetAllAvailableParkings().Select(i => i.Id).ToList();
+            parkingGarage.ItemsSource = main.park.GetAllAvailableParkings().Select(i => i.Id).ToList();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-
-            park.AddParkedVehicle(new ParkingModel.ParkedCars
+            bool error = false;
+            string slots = parkingGarage.Text;
+            int parkID = Convert.ToInt32(parkingGarage.Text);
+            if (vehicleType.SelectedIndex == 2)
             {
-                PlateNumber = plateNumber.Text,
-                VehicleType = vehicleType.SelectedIndex == 0 ? VehicleType.motorcycle : vehicleType.SelectedIndex == 1 ? VehicleType.car : VehicleType.bus,
-                ParkedSlots = parkingGarage.Text
                 
-            });
-            
-            MainWindow main = new MainWindow();
-            main.ParkedGrid.ItemsSource = park.GetAllParkedVehicles();
-            main.ParkedGrid.Items.Refresh();
-            Close();
+                for (int i = parkID + 1; i < parkID + 5; i++)
+                {
+                    slots += "," + i;
+                }
+            }
+
+            var parktype = main.park.GetParkingType(parkID);
+            if (vehicleType.SelectedIndex == 1 && parktype == ParkingModel.ParkingType.MotorcycleSpot)
+            {
+                error = true;
+                lblError.Content = "Vehicle can't be parked on that spot.";
+                lblError.Visibility = Visibility.Visible;
+            }
+
+            if (vehicleType.SelectedIndex == 2 && (parktype == ParkingModel.ParkingType.MotorcycleSpot || parktype == ParkingModel.ParkingType.CompactSpot))
+            {
+                error = true;
+                lblError.Content = "Vehicle can't be parked on that spot.";
+                lblError.Visibility = Visibility.Visible;
+            }
+
+            if (!error)
+            {
+                main.park.AddParkedVehicle(new ParkingModel.ParkedCars
+                {
+                    PlateNumber = plateNumber.Text,
+                    VehicleType = vehicleType.SelectedIndex == 0 ? VehicleType.motorcycle : vehicleType.SelectedIndex == 1 ? VehicleType.car : VehicleType.bus,
+                    ParkedSlots = slots
+
+                });
+
+                main.park.RefreshData();
+                main.parkedCars = main.park.GetAllParkedVehicles();
+                Close();
+            }
         }
     }
 }

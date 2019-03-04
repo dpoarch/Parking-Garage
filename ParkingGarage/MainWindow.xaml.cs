@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using ParkingGarage.Classes;
 using ParkingGarage.Models;
 
@@ -24,20 +26,29 @@ namespace ParkingGarage
     {
 
         public Parking park = new Parking();
-        public delegate void RefreshList();
-        public event RefreshList RefreshListEvent;
+
+        public ObservableCollection<ParkingModel.ParkedCarsDisplay> parkedCars;
+        public ObservableCollection<ParkingModel.ParkingGarage> parkGarages;
         public MainWindow()
         {
             InitializeComponent();
-            ParkedGrid.ItemsSource = park.GetAllParkedVehicles();
+            park.RefreshData();
+            parkedCars = park.GetAllParkedVehicles();
+            ParkedGrid.ItemsSource = parkedCars;
+
+            DispatcherTimer dispatcherTimer = new DispatcherTimer();
+            dispatcherTimer.Tick += DispatcherTimer_Tick;
+            dispatcherTimer.Interval = new TimeSpan(0, 0, 2);
+            dispatcherTimer.Start();
 
 
         }
 
-        private void RefreshListView()
+        private void DispatcherTimer_Tick(object sender, EventArgs e)
         {
-            ParkedGrid.ItemsSource = park.GetAllParkedVehicles();
-            ParkedGrid.Items.Refresh();
+            park.RefreshData();
+            parkedCars = park.GetAllParkedVehicles();
+            ParkedGrid.ItemsSource = parkedCars;
         }
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -46,13 +57,13 @@ namespace ParkingGarage
             {
                 if (selector.SelectedIndex == 1)
                 {
-                    ParkedGrid.ItemsSource = park.GetAllAvailableParkings();
-                    ParkedGrid.Items.Refresh();
+                    parkGarages = park.GetAllAvailableParkings();
+                    ParkedGrid.ItemsSource = parkGarages;
                 }
                 else
                 {
-                    ParkedGrid.ItemsSource = park.GetAllParkedVehicles();
-                    ParkedGrid.Items.Refresh();
+                    parkedCars = park.GetAllParkedVehicles();
+                    ParkedGrid.ItemsSource = parkedCars;
                 }
             }
             
@@ -63,5 +74,6 @@ namespace ParkingGarage
             AddPage addPage = new AddPage();
             addPage.Show();
         }
+        
     }
 }
